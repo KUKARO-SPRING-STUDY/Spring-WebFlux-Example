@@ -18,6 +18,6 @@ public class FluxTest147 {
                 .timestamp()
                 .index()
                 .subscribe(result->log.info(result.toString()));
-        log.info("##########");
+        log.info("#########1");
     }
 }
