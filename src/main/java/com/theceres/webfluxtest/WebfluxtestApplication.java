@@ -23,6 +23,6 @@ public class WebfluxtestApplication {
 //		FluxTest163.run();
 //		FluxSinkTest.run();
 //		MonoDeferTest.run();
-		FluxSinkTest2.run();
+//		FluxSinkTest2.run();
 	}
 }
