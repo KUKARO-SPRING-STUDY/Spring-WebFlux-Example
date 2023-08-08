@@ -23,6 +23,7 @@ public class ErrorController {
             ServerHttpRequest httpRequest) {
         return Mono.just("HELLO")
                 .map(s -> {
+                    log.info("BEFORE EXCEPTION");
                     throw new PostNotFoundException(1234L);
                 })
                 .map(e -> {
