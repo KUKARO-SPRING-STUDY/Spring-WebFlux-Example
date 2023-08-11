@@ -11,6 +11,7 @@ public class FluxTest {
         Flux.fromIterable(List.of(1,2,3,4)).map(integer -> {
             log.info(integer+"");
             return integer;
+
         }).subscribe();
     }
 }
