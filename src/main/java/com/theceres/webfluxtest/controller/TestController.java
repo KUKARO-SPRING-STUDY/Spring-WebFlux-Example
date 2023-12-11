@@ -19,6 +19,6 @@ public class TestController {
         log.info(httpRequest.getRemoteAddress().toString());
         Thread.currentThread().getThreadGroup().list();
         System.out.println(Runtime.getRuntime().availableProcessors());
-        return null;
+        return Mono.just("GGOD");
     }
 }
