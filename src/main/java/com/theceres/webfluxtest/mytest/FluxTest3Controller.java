@@ -12,7 +12,7 @@ import java.time.Duration;
 @RestController
 public class FluxTest3Controller {
     @GetMapping("/test3")
-    public Mono<String> test3() {ㅊ
+    public Mono<String> test3() {
         Flux.range(1, 5)
                 .delayElements(Duration.ofSeconds(1))
                 .timed()
