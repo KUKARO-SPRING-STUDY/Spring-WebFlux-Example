@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static org.springframework.http.ResponseEntity.notFound;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class RestExceptionController {
     @ExceptionHandler(PostNotFoundException.class)
     public ResponseEntity<String> handle(PostNotFoundException ex) {

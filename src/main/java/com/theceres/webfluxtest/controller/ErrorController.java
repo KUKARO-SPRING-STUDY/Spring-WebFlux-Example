@@ -21,6 +21,7 @@ public class ErrorController {
     @GetMapping("/err")
     public Mono<String> error(
             ServerHttpRequest httpRequest) {
+        log.info("get : err");
         return Mono.just("HELLO")
                 .map(s -> {
                     log.info("BEFORE EXCEPTION");
