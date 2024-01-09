@@ -9,11 +9,19 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @RestController
 public class Test2Controller {
+    private static int counter = 0;
 
     @GetMapping("/test")
     public Mono<String> test(
             ServerHttpRequest httpRequest) {
-        return throwError();
+        try {
+            counter++;
+            log.info(counter + "");
+            Thread.sleep(10000L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return Mono.just("TEST");
     }
 
     public Mono<Boolean> returnBoolean() {
@@ -29,12 +37,12 @@ public class Test2Controller {
                     })
                     .onErrorReturn("OOPS")
                     .map(Object::toString);
-        }catch (Exception e){
+        } catch (Exception e) {
             return success();
         }
     }
 
-    public Mono<String> success(){
+    public Mono<String> success() {
         log.info("SUCCESS");
         return Mono.just("SUCCESS");
     }
