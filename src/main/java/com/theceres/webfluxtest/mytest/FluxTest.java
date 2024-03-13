@@ -9,8 +9,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Timed;
 
-import java.util.List;
-
 @Slf4j
 @RestController
 @RequestMapping("/flux-test")
@@ -29,7 +27,7 @@ public class FluxTest {
                 .map(Object::toString)
                 .timed()
                 .map(timed -> {
-                    String s =  "(" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
+                    String s = "(" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
                     log.info(s);
                     return s;
                 });
@@ -47,7 +45,7 @@ public class FluxTest {
                 .map(result -> result + id)
                 .timed()
                 .map(timed -> {
-                    String s =  "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
+                    String s = "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
                     log.info(s);
                     return s;
                 })
@@ -61,7 +59,7 @@ public class FluxTest {
                 .map(result -> result + id)
                 .timed()
                 .map(timed -> {
-                    String s =  "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
+                    String s = "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
                     log.info(s);
                     return s;
                 });
@@ -79,7 +77,7 @@ public class FluxTest {
                 .map(result -> result + id)
                 .timed()
                 .map(timed -> {
-                    String s =  "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
+                    String s = "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
                     log.info(s);
                     return s;
                 })
@@ -93,7 +91,7 @@ public class FluxTest {
                 .map(result -> result + id)
                 .timed()
                 .map(timed -> {
-                    String s =  "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
+                    String s = "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
                     log.info(s);
                     return s;
                 });
@@ -111,8 +109,8 @@ public class FluxTest {
                 .map(result -> result + id)
                 .timed()
                 .map(timed -> {
-                 String s =  "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
-                 log.info(s);
+                    String s = "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
+                    log.info(s);
                     return s;
                 })
                 .flatMap((value) -> {
@@ -125,7 +123,7 @@ public class FluxTest {
                 .map(result -> result + id)
                 .timed()
                 .map(timed -> {
-                    String s =  "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
+                    String s = "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
                     log.info(s);
                     return s;
                 });
