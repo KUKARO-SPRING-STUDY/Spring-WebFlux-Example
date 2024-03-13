@@ -17,9 +17,9 @@ import java.util.List;
 public class FluxTest {
     @GetMapping("")
     public Mono<String> get() {
-        return Flux.fromIterable(List.of(no1("1"), no2("2"), no3("3"), no1("4"), no2("5")))
+        return Flux.just(no1("1"), no2("2"), no3("3"), no1("4"), no2("5"))
                 .timed()
-                .switchMap(Timed::get)
+                .flatMap(Timed::get)
                 .map(value -> {
                     log.info("########");
                     log.info(value);
@@ -40,7 +40,7 @@ public class FluxTest {
                 .flatMap((value) -> {
                     log.info(value);
                     return WebClient.create("http://localhost:8080").get()
-                            .uri("/test")
+                            .uri("/test?id=" + id)
                             .retrieve()
                             .bodyToMono(String.class);
                 })
@@ -54,7 +54,7 @@ public class FluxTest {
                 .flatMap((value) -> {
                     log.info(value);
                     return WebClient.create("http://localhost:8080").get()
-                            .uri("/test10")
+                            .uri("/test10?id=" + id)
                             .retrieve()
                             .bodyToMono(String.class);
                 })
@@ -72,7 +72,7 @@ public class FluxTest {
                 .flatMap((value) -> {
                     log.info(value);
                     return WebClient.create("http://localhost:8080").get()
-                            .uri("/test5")
+                            .uri("/test5?id=" + id)
                             .retrieve()
                             .bodyToMono(String.class);
                 })
@@ -86,7 +86,7 @@ public class FluxTest {
                 .flatMap((value) -> {
                     log.info(value);
                     return WebClient.create("http://localhost:8080").get()
-                            .uri("/test")
+                            .uri("/test?id=" + id)
                             .retrieve()
                             .bodyToMono(String.class);
                 })
@@ -104,7 +104,7 @@ public class FluxTest {
                 .flatMap((value) -> {
                     log.info(value);
                     return WebClient.create("http://localhost:8080").get()
-                            .uri("/test10")
+                            .uri("/test10?id=" + id)
                             .retrieve()
                             .bodyToMono(String.class);
                 })
@@ -118,7 +118,7 @@ public class FluxTest {
                 .flatMap((value) -> {
                     log.info(value);
                     return WebClient.create("http://localhost:8080").get()
-                            .uri("/test5")
+                            .uri("/test5?id=" + id)
                             .retrieve()
                             .bodyToMono(String.class);
                 })
