@@ -1,15 +1,14 @@
 package com.theceres.webfluxtest;
 
-import com.theceres.webfluxtest.reativetest.*;
-import com.theceres.webfluxtest.reativetest.create.*;
+import com.theceres.webfluxtest.mytest.FluxTest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class WebfluxtestApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WebfluxtestApplication.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(WebfluxtestApplication.class, args);
 //		FluxTest145.run();
 //		FluxTest147.run();
 //		FluxTest150.run();
@@ -24,5 +23,5 @@ public class WebfluxtestApplication {
 //		FluxSinkTest.run();
 //		MonoDeferTest.run();
 //		FluxSinkTest2.run();
-	}
+    }
 }

@@ -6,22 +6,47 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Slf4j
 @RestController
 public class Test2Controller {
-    private static int counter = 0;
+    private static AtomicInteger counter = new AtomicInteger(0);
 
     @GetMapping("/test")
     public Mono<String> test(
             ServerHttpRequest httpRequest) {
         try {
-            counter++;
-            log.info(counter + "");
-            Thread.sleep(10000L);
+            log.info(counter.incrementAndGet() + "");
+            Thread.sleep(100L);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         return Mono.just("TEST");
+    }
+
+    @GetMapping("/test5")
+    public Mono<String> test5(
+            ServerHttpRequest httpRequest) {
+        try {
+            log.info(counter.incrementAndGet() + "");
+            Thread.sleep(500L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return Mono.just("TEST5");
+    }
+
+    @GetMapping("/test10")
+    public Mono<String> test10(
+            ServerHttpRequest httpRequest) {
+        try {
+            log.info(counter.incrementAndGet() + "");
+            Thread.sleep(1000L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return Mono.just("TEST10");
     }
 
     public Mono<Boolean> returnBoolean() {
