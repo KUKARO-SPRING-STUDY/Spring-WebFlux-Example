@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Timed;
+import reactor.core.scheduler.Schedulers;
 
 @Slf4j
 @RestController
@@ -15,9 +16,11 @@ import reactor.core.publisher.Timed;
 public class FluxTest {
     @GetMapping("")
     public Mono<String> get() {
-        return Flux.just(no1("1"), no2("2"), no3("3"), no1("4"), no2("5"))
+        // alter table creative add column mobile_encoded_url text;
+        // alter table creative add column pc_encoded_url text;
+        return Flux.just(no1("1"), no1("2"), no3("3"), no2("4"), no2("5"))
                 .timed()
-                .flatMap(Timed::get)
+                .switchMap(Timed::get)
                 .map(value -> {
                     log.info("########");
                     log.info(value);
@@ -30,17 +33,31 @@ public class FluxTest {
                     String s = "(" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
                     log.info(s);
                     return s;
-                });
+                })
+                .publishOn(Schedulers.boundedElastic())
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
     public Mono<String> no1(String id) {
-        return Mono.just(id)
+        return Mono.fromSupplier(() -> {
+                    log.info("supplier : {}", id);
+                    return id;
+                })
                 .flatMap((value) -> {
                     log.info(value);
                     return WebClient.create("http://localhost:8080").get()
                             .uri("/test?id=" + id)
                             .retrieve()
-                            .bodyToMono(String.class);
+                            .bodyToMono(String.class)
+                            .doOnSubscribe(value2 -> {
+                                log.info("inner subscribe : {}", id);
+                            })
+                            .doOnCancel(() -> {
+                                log.info("inner {} cancel", id);
+                            });
+                })
+                .doOnCancel(() -> {
+                    log.info("{} cancel", id);
                 })
                 .map(result -> result + id)
                 .timed()
@@ -54,7 +71,13 @@ public class FluxTest {
                     return WebClient.create("http://localhost:8080").get()
                             .uri("/test10?id=" + id)
                             .retrieve()
-                            .bodyToMono(String.class);
+                            .bodyToMono(String.class)
+                            .doOnSubscribe(value2 -> {
+                                log.info("inner subscribe : {}", id);
+                            })
+                            .doOnCancel(() -> {
+                                log.info("inner {} cancel", id);
+                            });
                 })
                 .map(result -> result + id)
                 .timed()
@@ -62,17 +85,35 @@ public class FluxTest {
                     String s = "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
                     log.info(s);
                     return s;
+                })
+                .doOnSubscribe(value -> {
+                    log.info("subscribe : {}", id);
+                })
+                .doOnCancel(() -> {
+                    log.info("{} cancel", id);
                 });
     }
 
     public Mono<String> no2(String id) {
-        return Mono.just(id)
+        return Mono.fromSupplier(() -> {
+                    log.info("supplier : {}", id);
+                    return id;
+                })
                 .flatMap((value) -> {
                     log.info(value);
                     return WebClient.create("http://localhost:8080").get()
                             .uri("/test5?id=" + id)
                             .retrieve()
-                            .bodyToMono(String.class);
+                            .bodyToMono(String.class)
+                            .doOnSubscribe(value2 -> {
+                                log.info("inner subscribe : {}", id);
+                            })
+                            .doOnCancel(() -> {
+                                log.info("inner {} cancel", id);
+                            });
+                })
+                .doOnCancel(() -> {
+                    log.info("{} cancel", id);
                 })
                 .map(result -> result + id)
                 .timed()
@@ -86,7 +127,13 @@ public class FluxTest {
                     return WebClient.create("http://localhost:8080").get()
                             .uri("/test?id=" + id)
                             .retrieve()
-                            .bodyToMono(String.class);
+                            .bodyToMono(String.class)
+                            .doOnSubscribe(value2 -> {
+                                log.info("inner subscribe : {}", id);
+                            })
+                            .doOnCancel(() -> {
+                                log.info("inner {} cancel", id);
+                            });
                 })
                 .map(result -> result + id)
                 .timed()
@@ -94,17 +141,32 @@ public class FluxTest {
                     String s = "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
                     log.info(s);
                     return s;
+                })
+                .doOnSubscribe(value -> {
+                    log.info("subscribe : {}", id);
+                })
+                .doOnCancel(() -> {
+                    log.info("{} cancel", id);
                 });
     }
 
     public Mono<String> no3(String id) {
-        return Mono.just(id)
+        return Mono.fromSupplier(() -> {
+                    log.info("supplier : {}", id);
+                    return id;
+                })
                 .flatMap((value) -> {
                     log.info(value);
                     return WebClient.create("http://localhost:8080").get()
                             .uri("/test10?id=" + id)
                             .retrieve()
-                            .bodyToMono(String.class);
+                            .bodyToMono(String.class)
+                            .doOnSubscribe(value2 -> {
+                                log.info("inner subscribe : {}", id);
+                            })
+                            .doOnCancel(() -> {
+                                log.info("inner {} cancel", id);
+                            });
                 })
                 .map(result -> result + id)
                 .timed()
@@ -118,7 +180,13 @@ public class FluxTest {
                     return WebClient.create("http://localhost:8080").get()
                             .uri("/test5?id=" + id)
                             .retrieve()
-                            .bodyToMono(String.class);
+                            .bodyToMono(String.class)
+                            .doOnSubscribe(value2 -> {
+                                log.info("inner subscribe : {}", id);
+                            })
+                            .doOnCancel(() -> {
+                                log.info("inner {} cancel", id);
+                            });
                 })
                 .map(result -> result + id)
                 .timed()
@@ -126,6 +194,12 @@ public class FluxTest {
                     String s = "(" + id + ":" + timed.get() + ":" + timed.elapsed().toMillis() + "ms" + ")";
                     log.info(s);
                     return s;
+                })
+                .doOnSubscribe(value -> {
+                    log.info("subscribe : {}", id);
+                })
+                .doOnCancel(() -> {
+                    log.info("{} cancel", id);
                 });
     }
 }
